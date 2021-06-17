@@ -53,13 +53,14 @@ if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || P
         $_xhprof['getparam'] = '_profile';
     }
 
-    // if (isset($_GET[$_xhprof['getparam']])) {
-    //     //Give them a cookie to hold status, and redirect back to the same page
-    //     setcookie('_profile', $_GET[$_xhprof['getparam']]);
-    //     $newURI = str_replace([$_xhprof['getparam'] . '=1', $_xhprof['getparam'] . '=0'], '', $_SERVER['REQUEST_URI']);
-    //     header("Location: $newURI");
-    //     exit;
-    // }
+    if (isset($_GET[$_xhprof['getparam']])) {
+        $_xhprof['doprofile'] = true;
+        //Give them a cookie to hold status, and redirect back to the same page
+        // setcookie('_profile', $_GET[$_xhprof['getparam']]);
+        // $newURI = str_replace([$_xhprof['getparam'] . '=1', $_xhprof['getparam'] . '=0'], '', $_SERVER['REQUEST_URI']);
+        // header("Location: $newURI");
+        // exit;
+    }
 
     // if (isset($_COOKIE['_profile']) && $_COOKIE['_profile']
     //     || PHP_SAPI == 'cli' && ((isset($_SERVER[$envVarName]) && $_SERVER[$envVarName])
@@ -68,7 +69,7 @@ if ($controlIPs === false || in_array($_SERVER['REMOTE_ADDR'], $controlIPs) || P
     //     $_xhprof['doprofile'] = true;
     //     $_xhprof['type'] = 1;
     // }
-    unset($envVarName);
+    // unset($envVarName);
 }
 
 //Certain URLs should never have a link displayed. Think images, xml, etc.
@@ -139,10 +140,8 @@ if ($_xhprof['ext_name'] && $_xhprof['doprofile'] === true) {
 }
 unset($flagsCpu);
 unset($flagsMemory);
-function xhprof_shutdown_function()
-{
+$GLOBALS['_xhprof'] = $_xhprof;
+register_shutdown_function(function () {
     global $_xhprof;
     require dirname(__FILE__) . '/footer.php';
-}
-
-register_shutdown_function('xhprof_shutdown_function');
+});

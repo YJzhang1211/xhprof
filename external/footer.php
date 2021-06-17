@@ -3,9 +3,9 @@ if (!defined('XHPROF_LIB_ROOT')) {
     define('XHPROF_LIB_ROOT', dirname(dirname(__FILE__)) . '/xhprof_lib');
 }
 
-if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    $isAjax = true;
-}
+// if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+//     $isAjax = true;
+// }
 
 if ($_xhprof['ext_name'] && $_xhprof['doprofile'] === true) {
     $profiler_namespace = $_xhprof['namespace'];  // namespace for your application
